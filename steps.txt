@@ -1,0 +1,277 @@
+use zenclass // creating a mongoDb database
+
+<!--1. Inserting Sample Data for Users table -->
+db.users.insertMany([
+{
+  "name": "John Doe",
+  "email": "johndoe@example.com",
+  "contact_number": "+1234567890",
+  "registration_date": ISODate("2020-08-10T00:00:00Z"),
+  "tasks_completed": 5,
+  "codekata_solved_problems": 12,
+  "attendance": [
+    {
+      "date": ISODate("2020-10-05T00:00:00Z"),
+      "status": "Present"
+    },
+    {
+      "date": ISODate("2020-10-10T00:00:00Z"),
+      "status": "Absent"
+    }
+  ]
+},
+{
+  "name": "Jane Smith",
+  "email": "janesmith@example.com",
+  "contact_number": "+0987654321",
+  "registration_date": ISODate("2020-09-15T00:00:00Z"),
+  "tasks_completed": 8,
+  "codekata_solved_problems": 20,
+  "attendance": [
+    {
+      "date": ISODate("2020-10-10T00:00:00Z"),
+      "status": "Present"
+    },
+    {
+      "date": ISODate("2020-10-15T00:00:00Z"),
+      "status": "Present"
+    }
+  ]
+}
+]);
+
+
+<!-- 2. Insert Sample Data for CodeKata Collection -->
+db.codekata.insertMany([
+{
+  "problem_title": "Array Manipulation",
+  "difficulty_level": "Medium",
+  "date_added": ISODate("2020-10-01T00:00:00Z"),
+  "status": "Completed"
+},
+{
+  "problem_title": "Linked List Reversal",
+  "difficulty_level": "Hard",
+  "date_added": ISODate("2020-10-05T00:00:00Z"),
+  "status": "Completed"
+}
+]);
+
+
+<!-- 3. Insert Sample Data for Attendance Collection -->
+db.attendance.insertMany([
+{
+  "user_id": ObjectId("61b77c9a4f1a2b7f6d2f6b42"),
+  "date": ISODate("2020-10-05T00:00:00Z"),
+  "status": "Present"
+},
+{
+  "user_id": ObjectId("61b77c9a4f1a2b7f6d2f6b42"),
+  "date": ISODate("2020-10-10T00:00:00Z"),
+  "status": "Absent"
+},
+{
+  "user_id": ObjectId("61b77c9a4f1a2b7f6d2f6b43"),
+  "date": ISODate("2020-10-10T00:00:00Z"),
+  "status": "Present"
+},
+{
+
+  "user_id": ObjectId("61b77c9a4f1a2b7f6d2f6b43"),
+  "date": ISODate("2020-10-15T00:00:00Z"),
+  "status": "Present"
+}
+]);
+
+
+<!-- 4. Insert Sample Data for Topics Collection -->
+db.topics.insertMany([
+{
+  "topic_name": "Introduction to Algorithms",
+  "topic_description": "Basic understanding of algorithms and data structures.",
+  "date": ISODate("2020-10-05T00:00:00Z")
+},
+{
+  "topic_name": "Data Structures",
+  "topic_description": "Introduction to different data structures like Linked List, Stack, Queue.",
+  "date": ISODate("2020-10-10T00:00:00Z")
+},
+{
+    "topic_name": "sql",
+    "topic_description": "introduction to sql",
+    "date": ISODate("2024-08-19T00:00:00Z")
+  },
+  {
+    "topic_name": "htmlandcss",
+    "topic_description": "introduction to html and css",
+    "date": ISODate("2024-07-20T00:00:00Z")
+  },
+]);
+
+
+<!-- 5. Insert Sample Data for Tasks Collection -->
+db.tasks.insertMany([
+{
+  "task_title": "Solve Array Manipulation",
+  "description": "Implement array manipulation in various ways.",
+  "deadline": ISODate("2020-10-15T00:00:00Z"),
+  "status": "Completed",
+  "user_id": ObjectId("61b77c9a4f1a2b7f6d2f6b42")
+},
+{
+  "task_title": "Linked List Reversal Task",
+  "description": "Reverse a linked list.",
+  "deadline": ISODate("2020-10-20T00:00:00Z"),
+  "status": "Pending",
+  "user_id": ObjectId("61b77c9a4f1a2b7f6d2f6b43")
+}
+]);
+
+
+<!-- 6. Insert Sample Data for Company Drives Collection -->
+db.company_drives.insertMany([
+{
+  "company_name": "TechCorp",
+  "drive_date": ISODate("2020-10-20T00:00:00Z"),
+  "students_appeared": [
+    ObjectId("61b77c9a4f1a2b7f6d2f6b42"),
+    ObjectId("61b77c9a4f1a2b7f6d2f6b43")
+  ],
+  "status": "Completed"
+},
+{
+  "company_name": "DevSolutions",
+  "drive_date": ISODate("2020-10-25T00:00:00Z"),
+  "students_appeared": [
+    ObjectId("61b77c9a4f1a2b7f6d2f6b42")
+  ],
+  "status": "Upcoming"
+}
+]);
+
+
+7.Insert Sample Data for Mentors Collection
+db.mentors.insertMany([
+  {
+    "mentor_name": "Mentor A",
+    "mentor_email": "mentora@example.com",
+    "students_assigned": [
+      ObjectId("61b77c9a4f1a2b7f6d2f6b42"),
+      ObjectId("61b77c9a4f1a2b7f6d2f6b43")
+    ]
+  },
+  {
+    "mentor_name": "Mentor B",
+    "mentor_email": "mentorB@example.com",
+    "students_assigned": [
+      ObjectId("61b77c9a4f1a2b7f6d2f6b43")
+    ]
+  }
+]);
+<!-- 1.Find all the topics and tasks which are thought in the month of October -->
+
+ <!-- topics -->
+
+db.topics.find({
+  "date": {
+    $gte: ISODate("2024-10-01T00:00:00Z"),
+    $lte: ISODate("2024-10-31T23:59:59Z")
+  }
+});
+
+<!-- tasks -->
+
+db.tasks.find({
+    "date": {
+      $gte: ISODate("2024-10-01T00:00:00Z"),
+      $lte: ISODate("2024-10-31T23:59:59Z")
+    }
+  });
+
+
+<!-- 2. Find all the company drives which appeared between 15 Oct 2024 and 31 Oct 2024: -->
+
+db.company_drives.find({
+    "drive_date": {
+      $gte: ISODate("2024-10-15T00:00:00Z"),
+      $lte: ISODate("2024-10-31T23:59:59Z")
+    }
+  });
+  
+  <!-- 3.Find all the company drives and students who appeared for the placement: -->
+
+  db.company_drives.aggregate([
+  {
+    $match: {
+      "students_appeared": { $ne: [] }  // Ensure there are students who appeared
+    }
+  },
+  {
+    $lookup: {
+      from: "users",  // Join with Users collection
+      localField: "students_appeared",  // Field in company_drives collection
+      foreignField: "_id",  // Field in users collection
+      as: "appeared_students"
+    }
+  }
+]);
+
+<!-- 4. Find the number of problems solved by the user in Codekata: -->
+
+db.users.aggregate([
+  {
+    $project: {
+      name: 1,
+      codekata_solved_problems: 1  // Project the field that holds the number of solved problems
+    }
+  }
+]);
+
+<!-- 5. Find all the mentors who have more than 15 mentees: -->
+
+db.mentors.aggregate([
+  {
+    $project: {
+      mentor_name: 1,
+      mentee_count: { $size: "$students_assigned" }
+    }
+  },
+  {
+    $match: {
+      mentee_count: { $gt: 15 }
+    }
+  }
+]);
+
+<!-- 6.Find the number of users who are absent and whose task is not submitted between 15 Oct 2024 and 31 Oct 2024:-->
+db.users.aggregate([
+{
+  $lookup: {
+    from: "attendance",
+    localField: "_id",
+    foreignField: "user_id",
+    as: "attendance"
+  }
+},
+{
+  $lookup: {
+    from: "tasks",
+    localField: "_id",
+    foreignField: "user_id",
+    as: "tasks"
+  }
+},
+{
+  $match: {
+    "attendance.date": {
+      $gte: ISODate("2024-10-15T00:00:00Z"),
+      $lte: ISODate("2024-10-31T23:59:59Z")
+    },
+    "attendance.status": "Absent",
+    "tasks.status": "Pending"
+  }
+},
+{
+  $count: "absent_and_pending_users"
+}
+]);
